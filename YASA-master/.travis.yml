@@ -1,0 +1,29 @@
+language: python
+python:
+  - "3.6"
+  
+# command to install dependencies
+install:
+  - pip3 install psutil
+
+before_script:
+- git clone https://github.com/zhajio1988/uvm_candy_lover.git
+- cd uvm_candy_lover/bin
+- git clone https://github.com/zhajio1988/YASA.git
+- cd ../
+- touch bin/vcs
+- chmod +x bin/vcs
+- export PATH="./bin":$PATH
+- export TEMP_ROOT=`pwd`
+- source bin/bootenv.sh
+
+# command to run tests
+script:
+  -  python3 $PRJ_HOME/bin/YASA/yasaTop.py -h
+  -  python3 $PRJ_HOME/bin/YASA/yasaTop.py -doc
+  -  python3 $PRJ_HOME/bin/YASA/yasaTop.py -show test
+  -  python3 $PRJ_HOME/bin/YASA/yasaTop.py -show build
+  -  python3 $PRJ_HOME/bin/YASA/yasaTop.py -show group
+
+after_script:
+- rm -f bin/vcs
